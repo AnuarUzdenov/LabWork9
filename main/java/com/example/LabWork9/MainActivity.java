@@ -1,24 +1,24 @@
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private ImageView imageView;
-    private float rotation = 0f;
-    private int[] imageResources = {R.drawable.image1, R.drawable.image2, R.drawable.image3};
+    private TextView numberTextView;
+    private int number = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = findViewById(R.id.imageView);
-        registerForContextMenu(imageView);
+        numberTextView = findViewById(R.id.numberTextView);
+        registerForContextMenu(numberTextView);
     }
 
     @Override
@@ -29,18 +29,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.image1) {
-            imageView.setImageResource(imageResources[0]);
-            return true;
-        } else if (id == R.id.image2) {
-            imageView.setImageResource(imageResources[1]);
-            return true;
-        } else if (id == R.id.image3) {
-            imageView.setImageResource(imageResources[2]);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.colorRed:
+                numberTextView.setTextColor(Color.RED);
+                Toast.makeText(this, "Текст изменен на красный", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.colorGreen:
+                numberTextView.setTextColor(Color.GREEN);
+                Toast.makeText(this, "Текст изменен на зеленый", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.colorBlue:
+                numberTextView.setTextColor(Color.BLUE);
+                Toast.makeText(this, "Текст изменен на синий", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -51,16 +55,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.rotate_clockwise) {
-            rotation += 90f;
-            imageView.setRotation(rotation);
-            return true;
-        } else if (id == R.id.rotate_counter_clockwise) {
-            rotation -= 90f;
-            imageView.setRotation(rotation);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.increase:
+                number += 10;
+                numberTextView.setText(String.valueOf(number));
+                Toast.makeText(this, "Число увеличено на 10", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.decrease:
+                number -= 10;
+                numberTextView.setText(String.valueOf(number));
+                Toast.makeText(this, "Число уменьшено на 10", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
-        return super.onContextItemSelected(item);
     }
 }
